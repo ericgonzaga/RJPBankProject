@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TransferOperationModel {
-    private Long customerIdFrom;
-    private Long customerIdTo;
+public class TransferTransactionViewModel {
+    private Long accountIdFrom;
+    private Long accountIdTo;
     private Long value;
 }

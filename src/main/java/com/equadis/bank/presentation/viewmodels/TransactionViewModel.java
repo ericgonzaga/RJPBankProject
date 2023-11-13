@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewAccountModel {
-    private Long customerId;
-    private Long initialAmount;
+public class TransactionViewModel {
+    private Long accountId;
+    private Long value;
 }

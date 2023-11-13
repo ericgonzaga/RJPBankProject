@@ -1,12 +1,15 @@
-package com.equadis.bank.domain.entities.account;
+package com.equadis.bank.domain.usecases;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+
+import com.equadis.bank.domain.models.Account;
 
 public interface IAccountService {
 
     Account get(Long id);
 
-    Account getByCustomer(Long customerId);
+    List<Account> getByCustomer(Long customerId);
 
     Long create(Long customerId, Long initialAmount);
 

@@ -1,4 +1,4 @@
-package com.equadis.bank.domain.entities.account;
+package com.equadis.bank.domain.models;
 
 import com.equadis.bank.domain.errors.NotEnoughBalanceException;
 

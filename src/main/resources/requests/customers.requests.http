@@ -1,0 +1,24 @@
+
+### CUSTOMERS
+
+POST http://localhost:8080/customer
+Content-Type: application/json
+
+{
+    "name": "Eric Gonzaga"
+}
+
+###
+
+GET http://localhost:8080/customer/1
+
+
+### 
+
+GET http://localhost:8080/customer/list
+
+
+### 
+
+DELETE http://localhost:8080/customer/1
+

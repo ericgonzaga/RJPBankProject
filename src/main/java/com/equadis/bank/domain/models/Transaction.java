@@ -1,6 +1,8 @@
-package com.equadis.bank.domain.entities.operation;
+package com.equadis.bank.domain.models;
 
 import java.time.LocalDateTime;
+
+import com.equadis.bank.domain.types.TransactionType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,15 +13,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Operation {
+public class Transaction {
 
-    private Long customerId;
-    private OperationType type;
+    private Long id;
+    private Long accountId;
+    private TransactionType type;
     private LocalDateTime date;
     private Long value;
 
-    public Operation(Long customerId, OperationType type, Long value) {
-        this.customerId = customerId;
+    public Transaction(Long accountId, TransactionType type, Long value) {
+        this.accountId = accountId;
         this.type = type;
         this.value = value;
         this.date = LocalDateTime.now();

@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewCustomerModel {
+public class NewCustomerViewModel {
     private String name;
 }

@@ -1,0 +1,36 @@
+
+### TRANSACTIONS
+
+PUT http://localhost:8080/transaction/deposit
+Content-Type: application/json
+
+{
+    "accountId": 1,
+    "value": 500
+}
+
+###
+
+PUT http://localhost:8080/transaction/withdraw
+Content-Type: application/json
+
+{
+    "accountId": 1,
+    "value": 200
+}
+
+###
+
+PUT http://localhost:8080/transaction/transfer
+Content-Type: application/json
+
+{
+    "accountIdFrom": 1,
+    "accountIdTo": 2,
+    "value": 300
+}
+
+###
+
+GET http://localhost:8080/transaction/listByAccount/1
+

@@ -1,4 +1,4 @@
-package com.equadis.bank.domain.entities.customer;
+package com.equadis.bank.domain.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

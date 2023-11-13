@@ -1,7 +1,9 @@
-package com.equadis.bank.domain.entities.customer;
+package com.equadis.bank.domain.usecases;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import com.equadis.bank.domain.models.Customer;
 
 public interface ICustomerService {
 

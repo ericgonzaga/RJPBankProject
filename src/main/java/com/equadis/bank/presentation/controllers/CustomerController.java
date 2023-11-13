@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equadis.bank.domain.entities.customer.Customer;
-import com.equadis.bank.domain.entities.customer.ICustomerService;
-import com.equadis.bank.presentation.viewmodels.NewCustomerModel;
+import com.equadis.bank.domain.models.Customer;
+import com.equadis.bank.domain.usecases.ICustomerService;
+import com.equadis.bank.presentation.viewmodels.NewCustomerViewModel;
 
 import lombok.AllArgsConstructor;
 
@@ -38,7 +38,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> create(@RequestBody NewCustomerModel model) {
+    public ResponseEntity<Long> create(@RequestBody NewCustomerViewModel model) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.service.create(model.getName()));
     }
 
