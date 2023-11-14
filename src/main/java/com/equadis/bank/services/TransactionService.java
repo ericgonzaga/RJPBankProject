@@ -22,8 +22,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TransactionService implements ITransactionService {
 
-    public final ITransactionRepository repository;
-    public final IAccountRepository accountRepository;
+    private final ITransactionRepository repository;
+    private final IAccountRepository accountRepository;
     private final AccountService accountService;
     private final ModelMapper mapper;
 
@@ -40,11 +40,7 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public void deposit(Long accountId, Long value) {
-        Account account = this.accountService.get(accountId);
-        if (account == null) {
-            throw new NoSuchElementException("accountId");
-        }
-
+        Account account = this.getAccount(accountId);
         account.addBalance(value);
         this.accountRepository.save(this.mapper.map(account, AccountEntity.class));
 
@@ -54,11 +50,7 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public void withdraw(Long accountId, Long value) throws NotEnoughBalanceException {
-        Account account = this.accountService.get(accountId);
-        if (account == null) {
-            throw new NoSuchElementException("accountId");
-        }
-
+        Account account = this.getAccount(accountId);
         account.deductBalance(value);
         this.accountRepository.save(this.mapper.map(account, AccountEntity.class));
 
@@ -68,8 +60,8 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public void transfer(Long accountIdFrom, Long accountIdTo, Long value) throws NotEnoughBalanceException {
-        Account accountFrom = this.accountService.get(accountIdFrom);
-        Account accountTo = this.accountService.get(accountIdTo);
+        Account accountFrom = this.getAccount(accountIdFrom);
+        Account accountTo = this.getAccount(accountIdTo);
         Account.transfer(accountFrom, accountTo, value);
         this.accountRepository.save(this.mapper.map(accountFrom, AccountEntity.class));
         this.accountRepository.save(this.mapper.map(accountTo, AccountEntity.class));
@@ -78,6 +70,14 @@ public class TransactionService implements ITransactionService {
         Transaction transactionTo = new Transaction(accountIdTo, TransactionType.DEPOSIT, value);
         this.repository.save(this.mapper.map(transactionFrom, TransactionEntity.class));
         this.repository.save(this.mapper.map(transactionTo, TransactionEntity.class));
+    }
+
+    private Account getAccount(Long accountId) throws NoSuchElementException {
+        Account account = this.accountService.get(accountId);
+        if (account == null) {
+            throw new NoSuchElementException("accountId " + accountId);
+        }
+        return account;
     }
 
 }
