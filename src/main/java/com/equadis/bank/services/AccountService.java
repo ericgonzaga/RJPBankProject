@@ -44,7 +44,7 @@ public class AccountService implements IAccountService {
     public Long create(Long customerId, Long initialAmount) {
         Account account = new Account();
         account.setCustomerId(customerId);
-        account.setAmount(initialAmount);
+        account.setBalance(initialAmount);
         AccountEntity entity = this.repository.save(mapper.map(account, AccountEntity.class));
 
         Transaction transaction = new Transaction(entity.getId(), TransactionType.DEPOSIT, initialAmount);

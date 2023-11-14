@@ -13,7 +13,7 @@ public class Account {
 
     private Long id;
     private Long customerId;
-    private Long amount;
+    private Long balance;
     private Boolean active;
 
     public Account() {
@@ -21,15 +21,15 @@ public class Account {
     }
 
     public void addBalance(Long value) {
-        this.amount += value;
+        this.balance += value;
     }
 
     public void deductBalance(Long value) throws NotEnoughBalanceException {
-        if (value > this.amount) {
+        if (value > this.balance) {
             throw new NotEnoughBalanceException();
         }
 
-        this.amount -= value;
+        this.balance -= value;
     }
 
     public static void transfer(Account from, Account to, Long value) throws NotEnoughBalanceException {
