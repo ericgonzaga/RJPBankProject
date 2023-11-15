@@ -1,12 +1,10 @@
 package com.equadis.bank.unit;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class BaseUnitTest {
@@ -14,13 +12,8 @@ public class BaseUnitTest {
     @Mock
     private ModelMapper mapper;
 
-    @BeforeAll
-    private void setup() {
-        MockitoAnnotations.openMocks(this);
-        Mockito.when(this.mapper).thenReturn(this.modelMapper());
-    }
-
-    private ModelMapper modelMapper() {
+    @Bean
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 }

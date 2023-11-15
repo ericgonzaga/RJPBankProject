@@ -4,19 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.equadis.bank.domain.models.Customer;
 import com.equadis.bank.presentation.controllers.AccountController;
 import com.equadis.bank.presentation.viewmodels.NewAccountViewModel;
 
 import jakarta.persistence.EntityManager;
 
-@SpringBootTest
+@SpringBootTest(classes = { AccountController.class })
+@ExtendWith(SpringExtension.class)
 public class AccountIntegrationTest extends BaseIntegrationTest {
 
     @Autowired

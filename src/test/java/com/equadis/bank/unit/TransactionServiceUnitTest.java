@@ -1,5 +1,7 @@
 package com.equadis.bank.unit;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,7 @@ import com.equadis.bank.services.AccountService;
 import com.equadis.bank.services.TransactionService;
 
 @ExtendWith(MockitoExtension.class)
-public class TransactionUnitTest extends BaseUnitTest {
+public class TransactionServiceUnitTest extends BaseUnitTest {
 
     @InjectMocks
     private TransactionService service;
@@ -30,13 +32,14 @@ public class TransactionUnitTest extends BaseUnitTest {
     @Mock
     private IAccountRepository accountRepository;
 
-    private Account account1;
-    private Account account2;
+    Account accountDeposit, accountWithdraw, accountFrom, accountTo;
 
     @BeforeAll
-    public void setup() {
-        this.account1 = new Account(1L, 1L, 1000L, true);
-        this.account2 = new Account(2L, 2L, 1000L, true);
+    public void beforeAll() {
+        this.accountDeposit = new Account(1L, 1L, 1000L, true);
+        this.accountWithdraw = new Account(2L, 1L, 1000L, true);
+        this.accountFrom = new Account(3L, 1L, 1000L, true);
+        this.accountTo = new Account(4L, 1L, 1000L, true);
 
         this.accountService = Mockito.mock(AccountService.class);
         this.accountRepository = Mockito.mock(IAccountRepository.class);
@@ -45,9 +48,11 @@ public class TransactionUnitTest extends BaseUnitTest {
 
     @Test
     public void testDeposit() {
-        Mockito.doReturn(this.account1).when(this.accountService).get(this.account1.getId());
-        this.service.deposit(this.account1.getId(), 100L);
+        Mockito.doReturn(accountDeposit).when(this.accountService).get(accountDeposit.getId());
 
+        this.service.deposit(accountDeposit.getId(), 100L);
+
+        assertEquals(1100L, accountDeposit.getBalance().longValue());
         Mockito.verify(this.accountService, Mockito.times(1)).get(Mockito.anyLong());
         Mockito.verify(this.accountRepository, Mockito.times(1)).save(Mockito.any());
         Mockito.verify(this.repository, Mockito.times(1)).save(Mockito.any());
@@ -55,9 +60,11 @@ public class TransactionUnitTest extends BaseUnitTest {
 
     @Test
     public void testWithdrawHasBalance() throws NotEnoughBalanceException {
-        Mockito.doReturn(this.account1).when(this.accountService).get(this.account1.getId());
-        this.service.withdraw(this.account1.getId(), 100L);
+        Mockito.doReturn(accountWithdraw).when(this.accountService).get(accountWithdraw.getId());
 
+        this.service.withdraw(accountWithdraw.getId(), 100L);
+
+        assertEquals(900L, accountWithdraw.getBalance().longValue());
         Mockito.verify(this.accountService, Mockito.times(1)).get(Mockito.anyLong());
         Mockito.verify(this.accountRepository, Mockito.times(1)).save(Mockito.any());
         Mockito.verify(this.repository, Mockito.times(1)).save(Mockito.any());
@@ -65,11 +72,13 @@ public class TransactionUnitTest extends BaseUnitTest {
 
     @Test
     public void testTransferHasBalance() throws NotEnoughBalanceException {
-        Mockito.doReturn(this.account1).when(this.accountService).get(this.account1.getId());
-        Mockito.doReturn(this.account2).when(this.accountService).get(this.account2.getId());
+        Mockito.doReturn(accountFrom).when(this.accountService).get(accountFrom.getId());
+        Mockito.doReturn(accountTo).when(this.accountService).get(accountTo.getId());
 
-        this.service.transfer(this.account1.getId(), this.account2.getId(), 100L);
+        this.service.transfer(accountFrom.getId(), accountTo.getId(), 100L);
 
+        assertEquals(900L, accountFrom.getBalance().longValue());
+        assertEquals(1100L, accountTo.getBalance().longValue());
         Mockito.verify(this.accountService, Mockito.times(2)).get(Mockito.anyLong());
         Mockito.verify(this.accountRepository, Mockito.times(2)).save(Mockito.any());
         Mockito.verify(this.repository, Mockito.times(2)).save(Mockito.any());
